@@ -40,11 +40,14 @@ builder.Services.AddSingleton<IAppLocalSetting>(sp => sp.GetRequiredService<IOpt
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost", policy =>
+    options.AddPolicy("AllowSpecificOrigins", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        policy.WithOrigins(
+            "http://localhost:3000",
+            "https://dscribeweb-75705909274.europe-west1.run.app"  // Add your deployed frontend here
+        )
+        .AllowAnyMethod()
+        .AllowAnyHeader();
     });
 });
 
@@ -53,7 +56,7 @@ var app = builder.Build();
 // Middleware
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseCors("AllowLocalhost");
+app.UseCors("AllowSpecificOrigins");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
