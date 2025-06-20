@@ -38,6 +38,16 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 builder.Services.Configure<AppLocalSetting>(builder.Configuration.GetSection("AppLocalSettings"));
 builder.Services.AddSingleton<IAppLocalSetting>(sp => sp.GetRequiredService<IOptions<AppLocalSetting>>().Value);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Middleware
