@@ -53,7 +53,7 @@ var app = builder.Build();
 // Middleware
 app.UseSwagger();
 app.UseSwaggerUI();
-
+app.UseCors("AllowLocalhost");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
