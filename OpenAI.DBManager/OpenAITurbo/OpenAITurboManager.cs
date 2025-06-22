@@ -169,6 +169,15 @@ namespace OpenAI.DBManager
 
                 //string credsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dscribe-462811-3feadef0aeed.json");
 
+                foreach (var obj in storage.ListObjects(outputBucket, outputPrefix).ToList())
+                {
+                    if (obj.Name.EndsWith(".json", StringComparison.OrdinalIgnoreCase))
+                    {
+                        storage.DeleteObject(obj);
+                        Logger.WriteInfoLog($"Deleted old JSON: {obj.Name}");
+                    }
+                }
+
                 var builder = new ImageAnnotatorClientBuilder
                 {
                     // supply the JSON directly:
