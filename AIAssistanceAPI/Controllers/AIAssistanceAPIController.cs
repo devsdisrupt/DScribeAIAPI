@@ -82,6 +82,14 @@ namespace AIAssistanceAPI.Controllers
                             apiResponseModel = APIHelper.ApiSuccess(response.Data, requestMethod, response.ResponseMessage, response.ResponseCode);
                         }
                     }
+                     else if (responseData.GetType() == typeof(ErrorResponse))
+                     {
+                         ErrorResponse response = (ErrorResponse)responseData;
+                         if (requestModel.IsPostRequest)
+                         {
+                             apiResponseModel = APIHelper.ApiSuccess(response.ErrorCode, requestMethod, response.ErrorMessage, response.ErrorCode);
+                         }
+                     }
                 }
             }
             catch (Exception ex)
